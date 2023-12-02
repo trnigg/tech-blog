@@ -47,3 +47,5 @@ router.post('/log-in', async (req, res) => {
   }
   // Add a redirect to the dashboard/home page after successful log-in
 });
+
+module.exports = router;
