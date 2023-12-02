@@ -17,10 +17,10 @@ User.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    // Display name doesn't need to be unique for now
     username: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     email: {
       type: DataTypes.STRING,
