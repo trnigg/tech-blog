@@ -21,3 +21,5 @@ Comment.belongsTo(Post, { foreignKey: 'post_id', onDelete: 'CASCADE' });
 // If a post is deleted, all of its comments will be deleted as well.
 // TODO - reconsider this approach:
 // maybe it makes more sense to User's posts and comments to remain, but be "uncredited"?
+
+module.exports = { User, Post, Comment };
