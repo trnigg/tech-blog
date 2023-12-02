@@ -5,19 +5,19 @@ const { User } = require('../models'); // Confirm the models I need
 
 // POST a new User (Sign Up)
 // Consider also validation error handling at 400
-router.post('sign-up', async (req, res) => {
+router.post('/sign-up', async (req, res) => {
   try {
     const userData = await User.create(req.body);
     res.status(201).json(userData);
+    res.redirect('/log-in'); // redirect to log-in page - session will be saved once logged-in
   } catch (err) {
-    console.error(err); // Log the error for debugging purposes
+    console.error(err); // Log the error
     res.status(500).json({ error: 'Internal Server Error' });
   }
-  // Add a redirect to the login page after successful sign-up?
 });
 
 // POST an existing User (Log In)
-router.post('log-in', async (req, res) => {
+router.post('/log-in', async (req, res) => {
   try {
     const userData = await User.findOne({ where: { email: req.body.email } });
     if (!userData) {
@@ -39,6 +39,7 @@ router.post('log-in', async (req, res) => {
       res
         .status(200)
         .json({ user: userData, message: 'You are now logged in!' });
+      res.redirect('/dashboard'); // Redirect to dashboard page after log-in
     });
   } catch (err) {
     console.error(err); // Log the error
