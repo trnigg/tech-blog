@@ -18,4 +18,15 @@ if (process.env.JAWSDB_URL) {
   );
 }
 
+// Sync the models with the database to create the tables
+// Move to seed file if i implement seeding
+sequelize
+  .sync({ force: false }) // Set force to false after dev to prevent dropping tables
+  .then(() => {
+    console.log('Database and tables have been created!');
+  })
+  .catch((err) => {
+    console.error('Error creating the database and tables:', err);
+  });
+
 module.exports = sequelize;

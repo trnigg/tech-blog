@@ -15,8 +15,24 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET a Comment by Comment ID
+router.get('/:id', async (req, res) => {
+  try {
+    const commentData = await Comment.findByPk(req.params.id, {
+      include: [{ model: User }, { model: Post }],
+    });
+    if (!commentData) {
+      res.status(404).json({ message: 'No comment found with this id!' });
+      return;
+    }
+    res.status(200).json(commentData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 // GET Comments by User ID
-router.get('user/:id', async (req, res) => {
+router.get('/user/:id', async (req, res) => {
   try {
     const commentData = await Comment.findAll({
       where: {
@@ -31,7 +47,7 @@ router.get('user/:id', async (req, res) => {
 });
 
 // GET Comments by Post ID
-router.get('post/:id', async (req, res) => {
+router.get('/post/:id', async (req, res) => {
   try {
     const commentData = await Comment.findAll({
       where: {
@@ -68,7 +84,7 @@ router.put('/:id', async (req, res) => {
       },
     });
     if (!commentData) {
-      res.status(404).json({ message: 'No Comment found with this id!' });
+      res.status(404).json({ message: 'No comment found with this id!' });
       return;
     }
     res.status(200).json(commentData);
@@ -88,7 +104,7 @@ router.delete('/:id', async (req, res) => {
       },
     });
     if (!commentData) {
-      res.status(404).json({ message: 'No Comment found with this id!' });
+      res.status(404).json({ message: 'No comment found with this id!' });
       return;
     }
     res.status(200).json(commentData);

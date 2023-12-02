@@ -7,8 +7,8 @@ const { User } = require('../models'); // Confirm the models I need
 // Consider also validation error handling at 400
 router.post('/sign-up', async (req, res) => {
   try {
-    const userData = await User.create(req.body);
-    res.status(201).json(userData);
+    await User.create(req.body);
+    // res.status(201).json(userData); Can't send json and redirect in same request
     res.redirect('/log-in'); // redirect to log-in page - session will be saved once logged-in
   } catch (err) {
     console.error(err); // Log the error
@@ -36,9 +36,7 @@ router.post('/log-in', async (req, res) => {
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
-      res
-        .status(200)
-        .json({ user: userData, message: 'You are now logged in!' });
+      // res.status(200).json({ user: userData, message: 'You are now logged in!' }); Can't send json and redirect in same request
       res.redirect('/dashboard'); // Redirect to dashboard page after log-in
     });
   } catch (err) {
@@ -47,3 +45,10 @@ router.post('/log-in', async (req, res) => {
   }
   // Add a redirect to the dashboard/home page after successful log-in
 });
+
+// TODO: POST a User (Log Out)
+
+// MAYBE TODO: PUT a User (Update User Info)
+// MAYBE TODO: DELETE a User (Delete User Account)
+
+module.exports = router;

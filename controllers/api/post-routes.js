@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // GET all Posts by User ID
-router.get('user/:id', async (req, res) => {
+router.get('/user/:id', async (req, res) => {
   try {
     const postData = await Post.findAll({
       where: {
