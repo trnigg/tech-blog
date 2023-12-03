@@ -10,9 +10,8 @@ const { User } = require('../../models'); // Confirm the models I need
 // Consider also validation error handling at 400
 router.post('/sign-up', async (req, res) => {
   try {
-    await User.create(req.body);
-    // res.status(201).json(userData); Can't send json and redirect in same request
-    res.redirect('/log-in'); // redirect to log-in page - session will be saved once logged-in
+    const userData = await User.create(req.body);
+    res.status(201).json(userData);
   } catch (err) {
     console.error(err); // Log the error
     res.status(500).json({ error: 'Internal Server Error' });
@@ -39,8 +38,9 @@ router.post('/log-in', async (req, res) => {
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
-      // res.status(200).json({ user: userData, message: 'You are now logged in!' }); Can't send json and redirect in same request
-      res.redirect('/dashboard'); // Redirect to dashboard page after log-in
+      res
+        .status(200)
+        .json({ user: userData, message: 'You are now logged in!' });
     });
   } catch (err) {
     console.error(err); // Log the error
