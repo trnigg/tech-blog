@@ -9,7 +9,25 @@ router.get('/', async (req, res) => {
   try {
     res.render('home');
   } catch (err) {
-    console.error(err); // Log the error
+    console.error(err); // Log  err
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/log-in', async (req, res) => {
+  try {
+    res.render('log-in');
+  } catch (err) {
+    console.error(err); // Log  err
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/sign-up', async (req, res) => {
+  try {
+    res.render('sign-up');
+  } catch (err) {
+    console.error(err); // Log  err
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });

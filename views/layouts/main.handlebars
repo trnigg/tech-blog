@@ -1,11 +1,35 @@
 {{! Placeholder to test routes }}
+<!DOCTYPE html>
+<html lang="en">
 
-<html>
   <head>
-    <title>Tech Blog</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Joe's Blog</title>
+    <link rel='stylesheet' href='/css/global.css' />
   </head>
+
   <body>
-    {{! Placeholder tag to "inject" content from other handlebar }}
-    {{{body}}}
-  </body>
+    <header>
+        <div class="header-container">
+            <h1>Joe Blogg's Tech Blog</h1>
+            <nav>
+                <menu>
+                {{! Maybe the following will be done in JS? }}
+                    <li><a href='/'>Home</a></li>
+                    <li><a href='/dashboard'>Dashboard</a></li>
+                    <li><a href='/log-in'>Log in</a></li>
+                    <li><a href='/sign-up'>Sign up</a></li>
+                </menu>
+            </nav>
+        </div>
+        
+    </header>
+
+    <main>
+        {{! Placeholder tag to "inject" content from other handlebar }}
+        {{{body}}}
+    </main>
+  <body>
+
 </html>

@@ -1,0 +1,81 @@
+/* the props */
+@import 'https://unpkg.com/open-props';
+
+/* optional imports that use the props */
+@import 'https://unpkg.com/open-props/normalize.min.css';
+@import 'https://unpkg.com/open-props/buttons.min.css';
+
+/* Global Styling */
+
+li {
+  list-style: none;
+  padding: 0;
+}
+
+/* Header Styling */
+header {
+  background-color: var(--surface-3);
+  padding: var(--size-fluid-1) var(--size-fluid-2);
+  box-shadow: var(--shadow-4);
+}
+
+.header-container {
+  display: flex;
+  flex: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav {
+  display: block;
+}
+
+menu {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Shared styling for both forms */
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Following calc removed header size and padding from vh100 height */
+  height: calc(100vh - 70px - var(--size-fluid-1) * 2);
+  margin: 0;
+  padding-inline: var(--size-fluid-3);
+}
+
+.form-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--surface-2);
+  border-radius: var(--radius-3);
+  box-shadow: var(--shadow-3);
+  padding: var(--size-fluid-3);
+}
+
+.form-card form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form-card h2 {
+  margin: auto;
+  margin-bottom: var(--size-fluid-1);
+}
+
+form li {
+  display: flex;
+  flex-direction: column;
+  margin: var(--size-fluid-1) 0;
+  width: 100%;
+}
+
+form button {
+  /* center horizontally within form */
+  margin: var(--size-fluid-2) auto;
+}
