@@ -1,5 +1,8 @@
 const router = require('express').Router();
-const { User } = require('../models'); // Confirm the models I need
+const { User } = require('../../models'); // Confirm the models I need
+
+// These are the routes to the user API for log-in/registration purposes.
+// They do not handle any navigation.
 
 // _____________________________________POST ROUTES_____________________________________
 
