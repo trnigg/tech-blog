@@ -35,6 +35,8 @@ menu {
   justify-content: space-between;
 }
 
+/* Shared styling for both forms */
+
 .form-container {
   display: flex;
   justify-content: center;
@@ -44,7 +46,6 @@ menu {
   margin: 0;
   padding-inline: var(--size-fluid-3);
 }
-/* For log-in view */
 
 .form-card {
   display: flex;
@@ -64,10 +65,8 @@ menu {
 
 .form-card h2 {
   margin: auto;
-  margin-bottom: var(--size-fluid-2);
+  margin-bottom: var(--size-fluid-1);
 }
-
-/* For both forms */
 
 form li {
   display: flex;

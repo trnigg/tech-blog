@@ -23,4 +23,13 @@ router.get('/log-in', async (req, res) => {
   }
 });
 
+router.get('/sign-up', async (req, res) => {
+  try {
+    res.render('sign-up');
+  } catch (err) {
+    console.error(err); // Log  err
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 module.exports = router;
