@@ -1,5 +1,6 @@
 const router = require('express').Router();
-// const { User, Post, Comment } = require('../models'); // Confirm the models I need here later
+
+const { User, Post } = require('../models'); // Confirm the models I need here later
 
 // Routes to handle navigation/rendering of pages
 
@@ -7,9 +8,13 @@ const router = require('express').Router();
 
 router.get('/', async (req, res) => {
   try {
-    res.render('home');
+    const postData = await Post.findAll({
+      include: [{ model: User }],
+    });
+    const posts = postData.map((post) => post.get({ plain: true }));
+    res.render('home', { posts });
   } catch (err) {
-    console.error(err); // Log  err
+    console.error(err);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
