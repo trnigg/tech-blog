@@ -37,6 +37,8 @@ router.get('/sign-up', async (req, res) => {
   }
 });
 
+// GET simple /log-out route to handle log-out confirmation
+
 // GET a single Post by Post ID
 router.get('/post/:id', async (req, res) => {
   try {
@@ -55,6 +57,15 @@ router.get('/post/:id', async (req, res) => {
     res.render('post', { post, logged_in: req.session.logged_in });
   } catch (err) {
     console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/log-out', async (req, res) => {
+  try {
+    res.render('log-out', { logged_in: req.session.logged_in });
+  } catch (err) {
+    console.error(err); // Log  err
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });

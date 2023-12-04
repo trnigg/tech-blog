@@ -17,7 +17,9 @@
                 <menu>
                 {{#if logged_in}}
                   <li><a href='/dashboard'>Dashboard</a></li>
-                  <li><a href='/log-in'>Log out</a></li>
+                  <li><a href='#' id="log-out">Log out</a></li>
+                  {{!-- Script for log-out only needed if logged in. --}}
+                  <script src='/js/log-out.js'></script>
                 {{else}}
                   <li><a href='/log-in'>Log in</a></li>
                   <li><a href='/sign-up'>Sign up</a></li>
