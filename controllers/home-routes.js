@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
       include: [{ model: User }],
     });
     const posts = postData.map((post) => post.get({ plain: true }));
-    res.render('home', { posts });
+    res.render('home', { posts, logged_in: req.session.logged_in });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
 
 router.get('/log-in', async (req, res) => {
   try {
-    res.render('log-in');
+    res.render('log-in', { logged_in: req.session.logged_in });
   } catch (err) {
     console.error(err); // Log  err
     res.status(500).json({ error: 'Internal Server Error' });
@@ -30,7 +30,7 @@ router.get('/log-in', async (req, res) => {
 
 router.get('/sign-up', async (req, res) => {
   try {
-    res.render('sign-up');
+    res.render('sign-up', { logged_in: req.session.logged_in });
   } catch (err) {
     console.error(err); // Log  err
     res.status(500).json({ error: 'Internal Server Error' });
@@ -52,7 +52,7 @@ router.get('/post/:id', async (req, res) => {
       return;
     }
     const post = postData.get({ plain: true }); // Need to map?
-    res.render('post', { post });
+    res.render('post', { post, logged_in: req.session.logged_in });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal Server Error' });
