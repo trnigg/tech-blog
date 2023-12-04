@@ -172,3 +172,9 @@ form button {
   margin-left: var(--size-fluid-3);
   width: calc(100% - var(--size-fluid-3));
 }
+
+.log-out-message {
+  text-align: center;
+  font-weight: var(--font-weight-7);
+  margin: var(--size-fluid-2) auto;
+}
