@@ -100,7 +100,7 @@ form button {
   align-items: center;
   /* Following calc removed header size and padding from vh100 height */
   min-height: calc(100vh - 70px - var(--size-fluid-1) * 2);
-  margin: var(--size-fluid-2) auto;
+  margin: var(--size-fluid-3) auto;
   max-width: 660px;
 }
 
@@ -118,6 +118,7 @@ form button {
   &:hover {
     box-shadow: var(--shadow-5);
     background-color: var(--surface-3);
+    cursor: pointer;
   }
 }
 
@@ -131,4 +132,43 @@ form button {
 
 .post-card-content {
   text-align: justify;
+}
+
+/* Styling for Single Post pages */
+
+.single-post-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Following calc removed header size and padding from vh100 height */
+  min-height: calc(100vh - 70px - var(--size-fluid-1) * 2);
+  margin: var(--size-fluid-3) auto;
+  max-width: 900px;
+}
+
+/* Recieves the same color/shadow styling as the post-card class when it's hovered */
+.single-post-card {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  background-color: var(--surface-3);
+  border-radius: var(--radius-3);
+  box-shadow: var(--shadow-4);
+  padding: var(--size-fluid-3);
+  margin-bottom: var(--size-fluid-2);
+  width: 100%;
+}
+
+/* THis now recieves the surface/shadow styling that the post-cards did at home page */
+.comment-card {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  background-color: var(--surface-2);
+  border-radius: var(--radius-3);
+  box-shadow: var(--shadow-3);
+  padding: var(--size-fluid-3);
+  margin-bottom: var(--size-fluid-1);
+  margin-left: var(--size-fluid-3);
+  width: calc(100% - var(--size-fluid-3));
 }
