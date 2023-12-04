@@ -1,7 +1,7 @@
 <div class='post-card'>
   <div class='post-card-header'>
     <h2>{{this.title}}</h2>
-    <p>By {{this.user.username}} on {{this.createdAt}}</p>
+    <p>by {{this.user.username}} on {{format_date this.createdAt}}</p>
   </div>
   <p class='post-card-content'>{{this.content}}</p>
 </div>
