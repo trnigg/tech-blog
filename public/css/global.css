@@ -55,6 +55,10 @@ menu {
   border-radius: var(--radius-3);
   box-shadow: var(--shadow-3);
   padding: var(--size-fluid-3);
+
+  &:hover {
+    box-shadow: var(--shadow-4);
+  }
 }
 
 .form-card form {
