@@ -12,14 +12,16 @@
   <body>
     <header>
         <div class="header-container">
-            <h1>Joe Blogg's Tech Blog</h1>
+            <h1><a href="/">Joe Blogg's Tech Blog</a></h1>
             <nav>
                 <menu>
-                {{! Maybe the following will be done in JS? }}
-                    <li><a href='/'>Home</a></li>
-                    <li><a href='/dashboard'>Dashboard</a></li>
-                    <li><a href='/log-in'>Log in</a></li>
-                    <li><a href='/sign-up'>Sign up</a></li>
+                {{#if logged_in}}
+                  <li><a href='/dashboard'>Dashboard</a></li>
+                  <li><a href='/log-in'>Log out</a></li>
+                {{else}}
+                  <li><a href='/log-in'>Log in</a></li>
+                  <li><a href='/sign-up'>Sign up</a></li>
+                {{/if}}
                 </menu>
             </nav>
         </div>
