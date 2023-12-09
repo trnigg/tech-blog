@@ -2,7 +2,7 @@
 <div class='post-card' data-post-id='{{this.id}}'>
   <div class='post-card-header'>
     <h2>{{this.title}}</h2>
-    <p>by {{this.user.username}} on {{format_date this.createdAt}}</p>
+    <p>by {{this.user.username}} on {{formatDate this.createdAt}}</p>
   </div>
-  <p class='post-card-content'>{{this.content}}</p>
+  <p class='post-card-content'>{{{preserveLineBreaks this.content}}}</p>
 </div>
