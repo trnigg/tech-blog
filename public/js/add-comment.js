@@ -44,15 +44,10 @@ cancelButton.addEventListener('click', (event) => {
   checkTextareaContent(); // update button visibility manually (as there is no input event)
 });
 
-commentForm.addEventListener('submit', async (event) => {
-  event.preventDefault();
-
-  // Get the post ID from the form attribute
-  // Need to parse as int or it woon't be accepted by my model as a valid ID
+async function submitForm() {
+  // Get post ID from form attribute
   const postID = parseInt(commentForm.getAttribute('data-post-id'));
-  // Get the comment content from the textarea
   const content = commentContent.value.trim();
-  // If there is content in the textarea, POST it to the database via the API with the post ID and comment content
   if (content) {
     const response = await fetch('/api/comment', {
       method: 'POST',
@@ -65,11 +60,22 @@ commentForm.addEventListener('submit', async (event) => {
       },
     });
 
-    // If the POST request is successful, reload the page to show the new comment
     if (response.ok) {
       document.location.reload();
     } else {
       alert(response.statusText);
     }
+  }
+}
+// EVENT listener to submit comment form via button
+commentForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  submitForm();
+});
+// EVENT listener to submit comment form via enter key
+commentContent.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault();
+    submitForm();
   }
 });
