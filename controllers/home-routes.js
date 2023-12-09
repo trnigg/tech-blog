@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const fetchUser = require('../utils/fetchUser'); // check route for utils/fetchUser.js - serve out of public folder??
 
 const { User, Post, Comment } = require('../models');
 
@@ -40,7 +41,7 @@ router.get('/sign-up', async (req, res) => {
 // GET simple /log-out route to handle log-out confirmation
 
 // GET a single Post by Post ID
-router.get('/post/:id', async (req, res) => {
+router.get('/post/:id', fetchUser, async (req, res) => {
   try {
     // Need to include the user model inside the comment model
     const postData = await Post.findByPk(req.params.id, {
@@ -54,7 +55,12 @@ router.get('/post/:id', async (req, res) => {
       return;
     }
     const post = postData.get({ plain: true }); // Need to map?
-    res.render('post', { post, logged_in: req.session.logged_in });
+    res.render('post', {
+      post,
+      logged_in: req.session.logged_in,
+      // Pass the logged in user data to the front end using the fetchUser util
+      current_user: req.user, //req.user returns the user data from the fetchUser util
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal Server Error' });
