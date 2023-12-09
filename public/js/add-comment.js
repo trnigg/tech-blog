@@ -1,16 +1,36 @@
+// const { format_date } = require('./utils/helpers'); doesn't work in the browser
 const commentContent = document.querySelector('.comment-content');
 const submitButton = document.querySelector('.comment-submit');
 const cancelButton = document.querySelector('.comment-cancel');
 const commentForm = document.querySelector('.comment-form');
+const addCommentHeading = document.querySelector('.add-comment-heading');
+// const currentUser = addCommentHeading.getAttribute('data-current-user');
+// Below is a newer way to get the current user from the DOM
+const currentUser = addCommentHeading.dataset.currentUser;
+console.log(currentUser);
+
+// FUNCTION to format date from utils/helpers.js - for some reason it doesn't work when imported - node+browsers...
+function formatDate(date) {
+  return date.toLocaleDateString('en-UK', {
+    day: '2-digit',
+    month: '2-digit',
+    year: '2-digit',
+  });
+}
 
 // FUNCTION to check textarea content and show/hide submit button depending on content within
 function checkTextareaContent() {
   if (commentContent.value.trim() !== '') {
     submitButton.style.display = 'block';
     cancelButton.style.display = 'block';
+    addCommentHeading.textContent = `${currentUser} on ${formatDate(
+      new Date()
+    )}`;
+    addCommentHeading.style.display = 'block';
   } else {
     submitButton.style.display = 'none';
     cancelButton.style.display = 'none';
+    addCommentHeading.style.display = 'none';
   }
 }
 // EVENT listener to check textarea content each time user types
