@@ -2,11 +2,12 @@
   <div class='single-post-card'>
     <div class='post-card-header'>
       <h2>{{post.title}}</h2>
-      <p>by {{post.user.username}} on {{format_date post.createdAt}}</p>
+      <p>by {{post.user.username}} on {{formatDate post.createdAt}}</p>
     </div>
-    <p class='post-card-content'>{{post.content}}</p>
+    <p class='post-card-content'>{{{ preserveLineBreaks post.content}}}</p>
   </div>
   {{#each post.comments}}
     {{> comment-card}}
   {{/each}}
-</div>
+  {{> add-comment}}
+

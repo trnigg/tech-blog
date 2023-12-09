@@ -170,6 +170,7 @@ form button {
   padding: var(--size-fluid-3);
   margin-bottom: var(--size-fluid-1);
   margin-left: var(--size-fluid-3);
+  /* Width calculated to end in line with the post cards by subtracting the left margin from 100% */
   width: calc(100% - var(--size-fluid-3));
 }
 
@@ -177,4 +178,27 @@ form button {
   text-align: center;
   font-weight: var(--font-weight-7);
   margin: var(--size-fluid-2) auto;
+}
+
+/* Format it the same as the the comment-card */
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.comment-content {
+  width: 100%;
+  background-color: var(--surface-2);
+}
+
+.comment-form button {
+  display: none;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
 }

@@ -1,0 +1,14 @@
+  {{!-- div recieves same style card as div inside > comment-card --}}
+  {{!-- Need to pass the post id into the form as an attribute for when a comment is made, so it is attached to certain post. --}}
+  <div class='comment-card'>
+    <h3 class='add-comment-heading' data-current-user="{{current_user.username}}"></h3>
+    <form id= 'comment-form' class='comment-form' data-post-id='{{post.id}}'>
+      <textarea id='comment-content' class='comment-content' placeholder='Add a comment...'></textarea>
+      <div class='buttons-container'>
+        <button class='comment-submit' type='submit'>Submit</button>
+        <button class='comment-cancel' type='cancel'>Cancel</button>
+      </div>
+    </form>
+  </div class='comment-card'>
+</div>
+<script src='/js/add-comment.js'></script>
