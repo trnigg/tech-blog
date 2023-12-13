@@ -129,12 +129,20 @@ document.querySelectorAll('.post-card').forEach((card) => {
     editButton.addEventListener('click', (event) => {
       event.stopPropagation(); // Prevent bubbling to card
       // Handle edit
+      // store original content in vars
+      // change content to textarea/form
+      // submit form to update post
+      // reload page
+      // cancel button to revert to original content
     });
 
     const deleteButton = card.querySelector('.delete-button');
     deleteButton.addEventListener('click', (event) => {
       event.stopPropagation(); // Prevent bubbling to card
       // Handle delete
+      // confirm delete with confirm() method
+      // if confirmed, delete post from database (otherwise do nothing)
+      // reload page
     });
   });
 });
