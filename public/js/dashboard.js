@@ -5,7 +5,7 @@ const postTitle = document.querySelector('.title-content');
 const postContent = document.querySelector('.post-content');
 const submitButton = document.querySelector('.post-submit');
 const cancelButton = document.querySelector('.post-cancel');
-const postForm = document.querySelector('.post-form');
+const newPostForm = document.querySelector('#new-post-form');
 const postDateContainer = document.querySelector('.post-date');
 // DOM References for interacting with post cards (multiple cards)
 // Each post card has a button container - need to select all of them
@@ -66,7 +66,7 @@ async function submitPost() {
 
 //_____________________________________ Event Listeners _______________________________________
 
-// Add event listeners to the title and content textareas
+// EVENT listeners to the title and content textareas to check for content
 postTitle.addEventListener('input', checkTextareaContent);
 postContent.addEventListener('input', checkTextareaContent);
 
@@ -81,7 +81,7 @@ cancelButton.addEventListener('click', (event) => {
 });
 
 // EVENT listener to submit comment form via button
-postForm.addEventListener('submit', (event) => {
+newPostForm.addEventListener('submit', (event) => {
   event.preventDefault();
   submitPost();
 });
@@ -109,36 +109,32 @@ document.querySelectorAll('.post-card').forEach((card) => {
 
     const actions = card.querySelector('.post-actions');
     if (actions.style.display === 'none' || actions.style.display === '') {
-      actions.style.display = 'block'; // Show the buttons when the card is clicked
+      actions.style.display = 'block';
     } else {
-      actions.style.display = 'none'; // Hide the buttons if they're already visible
+      actions.style.display = 'none';
     }
-  });
 
-  // Get the post ID from the card - used for edit, delete api routes and view re-routing
-  const postCard = document.querySelector('.post-card');
-  const postID = parseInt(postCard.getAttribute('data-post-id'));
+    // Get the ID of specific post card (each)
+    // Will be used in each three buttons.
+    const postID = parseInt(card.getAttribute('data-post-id'));
 
-  // TODO in future: use switch statement to handle multiple buttons?
+    const viewButton = card.querySelector('.view-button');
+    viewButton.addEventListener('click', (event) => {
+      event.stopPropagation(); // Prevent bubbling to card
+      // re-route to post page where user can see post w comments
+      window.location.href = `/post/${postID}`;
+    });
 
-  // DECLARE references to buttons in scope of event listener rather than global scope (document)
-  // Buttons are specific to each post card
-  const viewButton = card.querySelector('#view-button');
-  viewButton.addEventListener('click', (event) => {
-    event.stopPropagation(); // Prevent bubbling to card
-    // re-route to post page where user can see post w comments
-    window.location.href = `/post/${postID}`;
-  });
+    const editButton = card.querySelector('.edit-button');
+    editButton.addEventListener('click', (event) => {
+      event.stopPropagation(); // Prevent bubbling to card
+      // Handle edit
+    });
 
-  const editButton = card.querySelector('#edit-button');
-  editButton.addEventListener('click', (event) => {
-    event.stopPropagation(); // Prevent bubbling to card
-    // Handle edit
-  });
-
-  const deleteButton = card.querySelector('#del-button');
-  deleteButton.addEventListener('click', (event) => {
-    event.stopPropagation(); // Prevent bubbling to card
-    // Handle delete
+    const deleteButton = card.querySelector('.delete-button');
+    deleteButton.addEventListener('click', (event) => {
+      event.stopPropagation(); // Prevent bubbling to card
+      // Handle delete
+    });
   });
 });
