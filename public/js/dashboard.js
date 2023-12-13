@@ -1,10 +1,17 @@
+// ___________________________________ DOM References ___________________________________
+
+// DOM References for adding a post (one form)
 const postTitle = document.querySelector('.title-content');
 const postContent = document.querySelector('.post-content');
 const submitButton = document.querySelector('.post-submit');
 const cancelButton = document.querySelector('.post-cancel');
 const postForm = document.querySelector('.post-form');
 const postDateContainer = document.querySelector('.post-date');
-const actionButtons = document.querySelectorAll('.action-button');
+// DOM References for interacting with post cards (multiple cards)
+// Each post card has a button container - need to select all of them
+const actionButtons = document.querySelectorAll('.post-actions');
+
+//_____________________________________ Functions _______________________________________
 
 // FUNCTION to format date from utils/helpers.js - for some reason it doesn't work when imported - node+browsers...
 function formatDate(date) {
@@ -32,20 +39,8 @@ function checkTextareaContent() {
     cancelButton.style.display = 'none';
   }
 }
-// Add event listeners to the title and content textareas
-postTitle.addEventListener('input', checkTextareaContent);
-postContent.addEventListener('input', checkTextareaContent);
 
-// EVENT listener to clear textarea content when user clicks cancel button
-cancelButton.addEventListener('click', (event) => {
-  // Need to prevent default form submission behaviour & page refresh (as it is located within a form)
-  event.preventDefault();
-  postTitle.value = '';
-  postContent.value = '';
-  postDateContainer.textContent = '';
-  checkTextareaContent(); // update button visibility manually (as there is no input event)
-});
-
+// FUNCTION to submit post to database
 async function submitPost() {
   const title = postTitle.value.trim();
   const content = postContent.value.trim();
@@ -69,24 +64,48 @@ async function submitPost() {
   }
 }
 
+//_____________________________________ Event Listeners _______________________________________
+
+// Add event listeners to the title and content textareas
+postTitle.addEventListener('input', checkTextareaContent);
+postContent.addEventListener('input', checkTextareaContent);
+
+// EVENT listener to clear textarea content when user clicks cancel button
+cancelButton.addEventListener('click', (event) => {
+  // Need to prevent default form submission behaviour & page refresh (as it is located within a form)
+  event.preventDefault();
+  postTitle.value = '';
+  postContent.value = '';
+  postDateContainer.textContent = '';
+  checkTextareaContent(); // update button visibility manually (as there is no input event)
+});
+
 // EVENT listener to submit comment form via button
 postForm.addEventListener('submit', (event) => {
   event.preventDefault();
   submitPost();
 });
 
-// EVENT listener to submit post form via enter key removed for now
-// I want to allow users to use enter key to create new lines in the textarea
-// Additional logic would be required to handle 'enter' submission with two input areas
+// EVENT listener for entire document to hide buttons when user clicks anywhere on the page
+document.addEventListener('click', () => {
+  actionButtons.forEach((button) => {
+    button.style.display = 'none';
+  });
+});
 
-// ___________________ logic to handle editing and deleting a post button ___________________
-
-// EVENT listener to show buttons when hover over post was initially used, but changed to click for mobile support
-// Using event delegation to handle multiple posts
-
+// EVENT listener for each post card to show buttons when user clicks on the card
 document.querySelectorAll('.post-card').forEach((card) => {
   card.addEventListener('click', (event) => {
     event.stopPropagation(); // Prevent the click event from bubbling up to the document
+
+    // nested EVENT listener for each post - iterate and check with selected card is not the same as the card clicked
+    document.querySelectorAll('.post-card').forEach((otherCard) => {
+      if (otherCard !== card) {
+        // Select the buttons of the other card(s) and hide them
+        const otherButtons = otherCard.querySelector('.post-actions');
+        otherButtons.style.display = 'none';
+      }
+    });
 
     const actions = card.querySelector('.post-actions');
     if (actions.style.display === 'none' || actions.style.display === '') {
@@ -96,30 +115,25 @@ document.querySelectorAll('.post-card').forEach((card) => {
     }
   });
 
-  // Hide the buttons of all cards when anywhere else on the page is clicked
-  document.addEventListener('click', () => {
-    actionButtons.forEach((button) => {
-      button.style.display = 'none';
-    });
-  });
-
   // Get the post ID from the card - used for edit, delete api routes and view re-routing
   const postCard = document.querySelector('.post-card');
   const postID = parseInt(postCard.getAttribute('data-post-id'));
 
   // TODO in future: use switch statement to handle multiple buttons?
 
-  const editButton = card.querySelector('#edit-button');
-  editButton.addEventListener('click', (event) => {
-    event.stopPropagation(); // Prevent bubbling to card
-    // Handle edit
-  });
-
+  // DECLARE references to buttons in scope of event listener rather than global scope (document)
+  // Buttons are specific to each post card
   const viewButton = card.querySelector('#view-button');
   viewButton.addEventListener('click', (event) => {
     event.stopPropagation(); // Prevent bubbling to card
     // re-route to post page where user can see post w comments
     window.location.href = `/post/${postID}`;
+  });
+
+  const editButton = card.querySelector('#edit-button');
+  editButton.addEventListener('click', (event) => {
+    event.stopPropagation(); // Prevent bubbling to card
+    // Handle edit
   });
 
   const deleteButton = card.querySelector('#del-button');
