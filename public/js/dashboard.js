@@ -9,7 +9,7 @@ const newPostForm = document.querySelector('#new-post-form');
 const postDateContainer = document.querySelector('.post-date');
 // DOM References for interacting with post cards (multiple cards)
 // Each post card has a button container - need to select all of them
-const actionButtons = document.querySelectorAll('.post-actions');
+// const actionButtons = document.querySelectorAll('.post-actions');
 
 //_____________________________________ Functions _______________________________________
 
@@ -26,17 +26,17 @@ function formatDate(date) {
 function checkTextareaContent() {
   if (postTitle.value.trim() !== '') {
     postDateContainer.textContent = `on ${formatDate(new Date())}`;
-    postContent.style.display = 'block';
-    cancelButton.style.display = 'block';
+    postContent.classList.remove('hidden');
+    cancelButton.classList.remove('hidden');
     if (postContent.value.trim() !== '') {
-      submitButton.style.display = 'block';
+      submitButton.classList.remove('hidden');
     } else {
-      submitButton.style.display = 'none';
+      submitButton.classList.add('hidden');
     }
   } else {
-    postContent.style.display = 'none';
-    submitButton.style.display = 'none';
-    cancelButton.style.display = 'none';
+    postContent.classList.add('hidden');
+    submitButton.classList.add('hidden');
+    cancelButton.classList.add('hidden');
   }
 }
 
@@ -84,106 +84,4 @@ cancelButton.addEventListener('click', (event) => {
 newPostForm.addEventListener('submit', (event) => {
   event.preventDefault();
   submitPost();
-});
-
-// EVENT listener for entire document to hide buttons when user clicks anywhere on the page
-document.addEventListener('click', () => {
-  actionButtons.forEach((button) => {
-    button.style.display = 'none';
-  });
-});
-
-// EVENT listener for each post card to show buttons when user clicks on the card
-document.querySelectorAll('.post-card').forEach((card) => {
-  card.addEventListener('click', (event) => {
-    event.stopPropagation(); // Prevent the click event from bubbling up to the document
-
-    // nested EVENT listener for each post - iterate and check with selected card is not the same as the card clicked
-    document.querySelectorAll('.post-card').forEach((otherCard) => {
-      if (otherCard !== card) {
-        // Select the buttons of the other card(s) and hide them
-        const otherButtons = otherCard.querySelector('.post-actions');
-        otherButtons.style.display = 'none';
-      }
-    });
-
-    const actions = card.querySelector('.post-actions');
-    if (actions.style.display === 'none' || actions.style.display === '') {
-      actions.style.display = 'block';
-    } else {
-      actions.style.display = 'none';
-    }
-
-    // Get the ID of specific post card (each)
-    // Will be used in each three buttons.
-    const postID = parseInt(card.getAttribute('data-post-id'));
-
-    const viewButton = card.querySelector('.view-button');
-    viewButton.addEventListener('click', (event) => {
-      event.stopPropagation(); // Prevent bubbling to card
-      // re-route to post page where user can see post w comments
-      window.location.href = `/post/${postID}`;
-    });
-
-    const editButton = card.querySelector('.edit-button');
-    editButton.addEventListener('click', (event) => {
-      event.stopPropagation(); // Prevent bubbling to card
-      // Handle edit
-      // DOM reference to the closest div with class post-card to the current card, moving up the DOM tree
-      // See https://www.w3schools.com/jsref/met_element_closest.asp
-      const postCard = card.closest('.post-card');
-      const postCardHeader = postCard.querySelector('.post-card-header');
-      const postActions = postCard.querySelector('.post-actions');
-      const editForm = postCard.querySelector('.edit-post-form');
-
-      // Hide the post card header and post actions, and show the edit form
-      postCardHeader.classList.add('hidden');
-      postActions.classList.add('hidden');
-      editForm.classList.remove('hidden');
-
-      editForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-
-        const newTitle = editTitle.value.trim();
-        const newContent = editContent.value.trim();
-
-        const response = await fetch(`/api/post/${postID}`, {
-          method: 'PUT',
-          body: JSON.stringify({
-            title: newTitle,
-            content: newContent,
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (response.ok) {
-          //reload page
-          document.location.reload();
-          alert('Post succesfully edited');
-        } else {
-          alert(response.statusText);
-        }
-      });
-      const cancelButton = editForm.querySelector('.edit-cancel');
-      cancelButton.addEventListener('click', (event) => {
-        event.preventDefault();
-        event.stopPropagation(); // Prevent bubbling to card
-
-        // Hide the edit form and show the post card header and post actions
-        editForm.classList.add('hidden');
-        postCardHeader.classList.remove('hidden');
-        postActions.classList.remove('hidden');
-      });
-    });
-    const deleteButton = card.querySelector('.delete-button');
-    deleteButton.addEventListener('click', (event) => {
-      event.stopPropagation(); // Prevent bubbling to card
-      // Handle delete
-      // confirm delete with confirm() method
-      // if confirmed, delete post from database (otherwise do nothing)
-      // reload page
-    });
-  });
 });
