@@ -1,11 +1,26 @@
 <div class='post-card' data-post-id='{{this.id}}'>
   <div class='post-card-header'>
     <h2>{{this.title}}</h2>
+
     <p>on {{formatDate this.createdAt}}</p>
   </div>
-  <div class='post-actions'>
+  {{! Note, the following buttons are hidden by default }}
+  <div class='post-actions hidden'>
     <button class='action-button view-button'>View</button>
     <button class='action-button edit-button'>Edit</button>
     <button class='action-button delete-button'>Delete</button>
   </div>
+  {{! Note, the following form is also hidden by default}}
+  {{! Originally this was handled by replacing HTML with form dahsboard.js but this created many issues }}
+  <form id='edit-post-form' class='edit-post-form hidden'>
+    <div class='post-form-header'>
+      <textarea id='edit-title' class='edit-title'>{{this.title}}</textarea>
+      <p class='post-date'>on {{formatDate this.createdAt}}</p>
+    </div>
+    <textarea id='edit-content' class='edit-content'>{{this.content}}</textarea>
+    <div class='buttons-container'>
+      <button class='edit-submit' type='submit'>Submit</button>
+      <button class='edit-cancel' type='cancel'>Cancel</button>
+    </div>
+  </form>
 </div>

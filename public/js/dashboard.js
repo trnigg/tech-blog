@@ -129,13 +129,54 @@ document.querySelectorAll('.post-card').forEach((card) => {
     editButton.addEventListener('click', (event) => {
       event.stopPropagation(); // Prevent bubbling to card
       // Handle edit
-      // store original content in vars
-      // change content to textarea/form
-      // submit form to update post
-      // reload page
-      // cancel button to revert to original content
-    });
+      // DOM reference to the closest div with class post-card to the current card, moving up the DOM tree
+      // See https://www.w3schools.com/jsref/met_element_closest.asp
+      const postCard = card.closest('.post-card');
+      const postCardHeader = postCard.querySelector('.post-card-header');
+      const postActions = postCard.querySelector('.post-actions');
+      const editForm = postCard.querySelector('.edit-post-form');
 
+      // Hide the post card header and post actions, and show the edit form
+      postCardHeader.classList.add('hidden');
+      postActions.classList.add('hidden');
+      editForm.classList.remove('hidden');
+
+      editForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const newTitle = editTitle.value.trim();
+        const newContent = editContent.value.trim();
+
+        const response = await fetch(`/api/post/${postID}`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            title: newTitle,
+            content: newContent,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          //reload page
+          document.location.reload();
+          alert('Post succesfully edited');
+        } else {
+          alert(response.statusText);
+        }
+      });
+      const cancelButton = editForm.querySelector('.edit-cancel');
+      cancelButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation(); // Prevent bubbling to card
+
+        // Hide the edit form and show the post card header and post actions
+        editForm.classList.add('hidden');
+        postCardHeader.classList.remove('hidden');
+        postActions.classList.remove('hidden');
+      });
+    });
     const deleteButton = card.querySelector('.delete-button');
     deleteButton.addEventListener('click', (event) => {
       event.stopPropagation(); // Prevent bubbling to card
