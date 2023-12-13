@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const fetchUser = require('../utils/fetchUser'); // check route for utils/fetchUser.js - serve out of public folder??
+const userAuth = require('../utils/auth'); // see comments above
 
 const { User, Post, Comment } = require('../models');
 
@@ -40,8 +41,8 @@ router.get('/sign-up', async (req, res) => {
 
 // GET simple /log-out route to handle log-out confirmation
 
-// GET a single Post by Post ID
-router.get('/post/:id', fetchUser, async (req, res) => {
+// GET a single Post by Post ID - currently fetchUser not being used, but may implement feature requiring it later
+router.get('/post/:id', fetchUser, userAuth, async (req, res) => {
   try {
     // Need to include the user model inside the comment model
     const postData = await Post.findByPk(req.params.id, {
@@ -61,6 +62,26 @@ router.get('/post/:id', fetchUser, async (req, res) => {
       // Pass the logged in user data to the front end using the fetchUser util
       current_user: req.user, //req.user returns the user data from the fetchUser util
     });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/dashboard', fetchUser, userAuth, async (req, res) => {
+  try {
+    // Fetch all posts by the logged in user
+    const postData = await Post.findAll({
+      where: {
+        user_id: req.session.user_id,
+      },
+      include: [{ model: User }],
+    });
+
+    const posts = postData.map((post) => post.get({ plain: true }));
+
+    // Render the dashboard page with the posts
+    res.render('dashboard', { posts, logged_in: true, current_user: req.user });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal Server Error' });

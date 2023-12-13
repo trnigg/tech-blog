@@ -15,7 +15,9 @@
             <h1><a href="/">Joe Blogg's Tech Blog</a></h1>
             <nav>
                 <menu>
+                <li><a href='/'>Home</a></li>
                 {{#if logged_in}}
+                  
                   <li><a href='/dashboard'>Dashboard</a></li>
                   <li><a href='#' id="log-out">Log out</a></li>
                   {{!-- Script for log-out only needed if logged in. --}}

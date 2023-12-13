@@ -44,7 +44,7 @@ cancelButton.addEventListener('click', (event) => {
   checkTextareaContent(); // update button visibility manually (as there is no input event)
 });
 
-async function submitForm() {
+async function submitComment() {
   // Get post ID from form attribute
   const postID = parseInt(commentForm.getAttribute('data-post-id'));
   const content = commentContent.value.trim();
@@ -70,12 +70,12 @@ async function submitForm() {
 // EVENT listener to submit comment form via button
 commentForm.addEventListener('submit', (event) => {
   event.preventDefault();
-  submitForm();
+  submitComment();
 });
 // EVENT listener to submit comment form via enter key
 commentContent.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && !event.shiftKey) {
     event.preventDefault();
-    submitForm();
+    submitComment();
   }
 });

@@ -104,7 +104,8 @@ form button {
   max-width: 660px;
 }
 
-.post-card {
+.post-card,
+.add-post-card {
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
@@ -118,15 +119,18 @@ form button {
   &:hover {
     box-shadow: var(--shadow-5);
     background-color: var(--surface-3);
-    cursor: pointer;
   }
+}
+
+.post-card:hover {
+  cursor: pointer;
 }
 
 .post-card-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: end;
+  align-items: center;
   margin-bottom: var(--size-fluid-1);
 }
 
@@ -187,12 +191,15 @@ form button {
   align-items: center;
 }
 
-.comment-content {
+.comment-content,
+.post-content {
   width: 100%;
   background-color: var(--surface-2);
 }
 
-.comment-form button {
+.comment-form button,
+.post-form button,
+.post-content {
   display: none;
 }
 
@@ -201,4 +208,19 @@ form button {
   justify-content: space-between;
   width: 100%;
   max-width: 400px;
+  margin: auto;
+}
+
+.post-form-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--size-fluid-1);
+}
+
+.title-content {
+  flex-grow: 1;
+  background-color: var(--surface-2);
+  /* flex-shrink: 1; */
 }
