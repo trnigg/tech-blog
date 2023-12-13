@@ -51,7 +51,10 @@ router.get('/user/:id', async (req, res) => {
 // POST a new Post
 router.post('/', async (req, res) => {
   try {
-    const postData = await Post.create(req.body);
+    const userID = req.session.user_id;
+    // Spread the req.body - should return 'title' and 'content' properties as per /add-post.js fetch
+    // Attach User ID using model key 'user_id'
+    const postData = await Post.create({ ...req.body, user_id: userID });
     res.status(201).json(postData);
   } catch (err) {
     res.status(400).json(err);
