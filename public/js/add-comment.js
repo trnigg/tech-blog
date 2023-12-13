@@ -74,6 +74,7 @@ commentForm.addEventListener('submit', (event) => {
 });
 // EVENT listener to submit comment form via enter key
 commentContent.addEventListener('keydown', (event) => {
+  // ONLY submit if enter key is pressed WITHOUT shift key
   if (event.key === 'Enter' && !event.shiftKey) {
     event.preventDefault();
     submitComment();
