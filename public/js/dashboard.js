@@ -74,6 +74,14 @@ async function submitPost() {
 
     if (response.ok) {
       document.location.reload();
+      // Handle session-expiry redirect in the client side
+    } else if (response.status === 401) {
+      const shouldRedirect = confirm(
+        'Session expired. Please log back in to manage your content.'
+      );
+      if (shouldRedirect) {
+        window.location.href = '/log-in';
+      }
     } else {
       alert(response.statusText);
     }
@@ -95,6 +103,14 @@ async function editPost(postID, newTitle, newContent) {
 
   if (response.ok) {
     document.location.reload();
+    // Handle session-expiry redirect in the client side
+  } else if (response.status === 401) {
+    const shouldRedirect = confirm(
+      'Session expired. Please log back in to manage your content.'
+    );
+    if (shouldRedirect) {
+      window.location.href = '/log-in';
+    }
   } else {
     alert(response.statusText);
   }
@@ -111,6 +127,14 @@ async function deletePost(postID) {
 
   if (response.ok) {
     document.location.reload();
+    // Handle session-expiry redirect in the client side
+  } else if (response.status === 401) {
+    const shouldRedirect = confirm(
+      'Session expired. Please log back in to manage your content.'
+    );
+    if (shouldRedirect) {
+      window.location.href = '/log-in';
+    }
   } else {
     alert(response.statusText);
   }
