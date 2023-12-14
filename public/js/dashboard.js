@@ -1,17 +1,13 @@
 // ___________________________________ DOM References ___________________________________
 
-// DOM References for adding a post (one form)
+// Global DOM References
 const postTitle = document.querySelector('.title-content');
 const postContent = document.querySelector('.post-content');
 const submitButton = document.querySelector('.post-submit');
 const cancelButton = document.querySelector('.post-cancel');
 const newPostForm = document.querySelector('#new-post-form');
 const postDateContainer = document.querySelector('.post-date');
-// Get all post cards
 const postCards = document.querySelectorAll('.post-card');
-// DOM References for interacting with post cards (multiple cards)
-// Each post card has a button container - need to select all of them
-// const actionButtons = document.querySelectorAll('.post-actions');
 
 //_____________________________________ Functions _______________________________________
 
@@ -42,6 +38,24 @@ function checkTextareaContent() {
   }
 }
 
+// FUNCTION to hide all action buttons on all cards
+function hideAllActionButtons() {
+  postCards.forEach((card) => {
+    const actionButtons = card.querySelector('.post-actions');
+    actionButtons.classList.add('hidden');
+  });
+}
+// FUNCTION to hide any edit forms on any cards and unhide the post card header
+// TODO in future: combine this with hideAllActionButtons() to reduce code duplication?
+function revertFormState() {
+  postCards.forEach((card) => {
+    const editPostForm = card.querySelector('#edit-post-form');
+    const postCardHeader = card.querySelector('.post-card-header');
+    editPostForm.classList.add('hidden');
+    postCardHeader.classList.remove('hidden');
+  });
+}
+
 // FUNCTION to submit post to database
 async function submitPost() {
   const title = postTitle.value.trim();
@@ -67,6 +81,24 @@ async function submitPost() {
 }
 
 // FUNCTION to edit a post
+async function editPost(postID, newTitle, newContent) {
+  const response = await fetch(`/api/post/${postID}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      title: newTitle,
+      content: newContent,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (response.ok) {
+    document.location.reload();
+  } else {
+    alert(response.statusText);
+  }
+}
 
 // FUNCTION to delete a post
 async function deletePost(postID) {
@@ -105,26 +137,6 @@ newPostForm.addEventListener('submit', (event) => {
   event.preventDefault();
   submitPost();
 });
-
-//_____________________________________ NEW SCRIPT _______________________________________
-
-// FUNCTION to hide all action buttons on all cards
-function hideAllActionButtons() {
-  postCards.forEach((card) => {
-    const actionButtons = card.querySelector('.post-actions');
-    actionButtons.classList.add('hidden');
-  });
-}
-// FUNCTION to hide any edit forms on any cards and unhide the post card header
-// TODO in future: combine this with hideAllActionButtons() to reduce code duplication?
-function revertFormState() {
-  postCards.forEach((card) => {
-    const editPostForm = card.querySelector('#edit-post-form');
-    const postCardHeader = card.querySelector('.post-card-header');
-    editPostForm.classList.add('hidden');
-    postCardHeader.classList.remove('hidden');
-  });
-}
 
 // Add event listener to each post card
 postCards.forEach((card) => {
@@ -199,8 +211,22 @@ postCards.forEach((card) => {
     // Hide the edit form and show the post card header
     revertFormState();
   });
-  // editSubmitBtn.addEventListener('click', (event) => {});
 
+  // EVENT listener to the submit btn on edit form
+  editSubmitBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    // Prevent the card click event listener from firing
+    event.stopPropagation();
+    // Get the new title and content values
+    const newTitle = card.querySelector('.edit-title').value.trim();
+    const newContent = card.querySelector('.edit-content').value.trim();
+    // If the title and content are not empty, call editPost() with params required for fetch req
+    if (newTitle && newContent) {
+      editPost(postID, newTitle, newContent);
+    }
+  });
+
+  // EVENT listener to the edit form to prevent the card click event (toggling action-btn vis))
   editPostForm.addEventListener('click', (event) => {
     event.stopPropagation(); // STOP the card click event listener from firing and toggling button vis
     // NOTE: This is only a hotfix - the perimeter of the card will still toggle the buttons
