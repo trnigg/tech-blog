@@ -62,6 +62,12 @@ async function submitComment() {
 
     if (response.ok) {
       document.location.reload();
+      // Handle session-expiry redirect in the client side
+    } else if (response.status === 401) {
+      const shouldRedirect = confirm('Please log in to comment on this post.');
+      if (shouldRedirect) {
+        window.location.href = '/log-in';
+      }
     } else {
       alert(response.statusText);
     }

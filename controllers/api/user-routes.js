@@ -49,7 +49,7 @@ router.post('/log-in', async (req, res) => {
   // Add a redirect to the dashboard/home page after successful log-in
 });
 
-// TODO: POST a User (Log Out) - re-routing is handled by script in public/js/log-out.js
+// POST a User (Log Out) - re-routing is handled by script in public/js/log-out.js
 router.post('/log-out', async (req, res) => {
   try {
     // IF logged_in is true, destroy the session
@@ -65,8 +65,5 @@ router.post('/log-out', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
-// MAYBE TODO: PUT a User (Update User Info)
-// MAYBE TODO: DELETE a User (Delete User Account)
 
 module.exports = router;

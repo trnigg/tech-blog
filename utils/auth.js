@@ -1,9 +1,15 @@
+// modified to handle other types of requests, complicated by the redirect not changing the request method
 const userAuth = (req, res, next) => {
-  // If the user is not logged in, redirect the user to the login page
   if (!req.session.logged_in) {
-    res.redirect('/log-in'); // Confirm/change url for redirect
+    // https://expressjs.com/en/api.html#req.method
+    if (['POST', 'PUT', 'DELETE'].includes(req.method)) {
+      // Send a 401 and handle redirect on client side in with alert as to why
+      res.status(401).json({ message: 'Not logged in' });
+      // If get request, redirect to log-in page
+    } else {
+      res.redirect('/log-in');
+    }
   } else {
-    // If the user is logged in, execute the route function requested (i.e. 'next')
     next();
   }
 };

@@ -18,11 +18,15 @@ const PORT = process.env.PORT || 3001;
 const hbs = exphbs.create({ helpers });
 
 // Configure and link a session object with the sequelize store
+// Cookie maxAge set to 10 minutes for idle users
+// see: https://expressjs.com/en/resources/middleware/session.html
+// also: https://developer.okta.com/blog/2021/06/07/session-mgmt-node
 const sess = {
   secret: process.env.SESS_SECRET,
-  cookie: {},
+  cookie: { maxAge: 1000 * 10 * 60 }, // 10 minutes
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
+  rolling: true, // update with new maxAge expiration on every response, see: https://trueq.io/q/5
   store: new SequelizeStore({
     db: sequelize,
   }),
