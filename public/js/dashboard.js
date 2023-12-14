@@ -66,6 +66,24 @@ async function submitPost() {
   }
 }
 
+// FUNCTION to edit a post
+
+// FUNCTION to delete a post
+async function deletePost(postID) {
+  const response = await fetch(`/api/post/${postID}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (response.ok) {
+    document.location.reload();
+  } else {
+    alert(response.statusText);
+  }
+}
+
 //_____________________________________ Event Listeners _______________________________________
 
 // EVENT listeners to the title and content textareas to check for content
@@ -90,11 +108,21 @@ newPostForm.addEventListener('submit', (event) => {
 
 //_____________________________________ NEW SCRIPT _______________________________________
 
-// FUNCTION to hide all action buttons on all cards when anywhere is clicked.
+// FUNCTION to hide all action buttons on all cards
 function hideAllActionButtons() {
   postCards.forEach((card) => {
     const actionButtons = card.querySelector('.post-actions');
     actionButtons.classList.add('hidden');
+  });
+}
+// FUNCTION to hide any edit forms on any cards and unhide the post card header
+// TODO in future: combine this with hideAllActionButtons() to reduce code duplication?
+function revertFormState() {
+  postCards.forEach((card) => {
+    const editPostForm = card.querySelector('#edit-post-form');
+    const postCardHeader = card.querySelector('.post-card-header');
+    editPostForm.classList.add('hidden');
+    postCardHeader.classList.remove('hidden');
   });
 }
 
@@ -108,6 +136,12 @@ postCards.forEach((card) => {
   const viewButton = actionButtons.querySelector('.view-button');
   const editButton = actionButtons.querySelector('.edit-button');
   const deleteButton = actionButtons.querySelector('.delete-button');
+  // Get the edit form elements for THIS card (they are hidden by default)
+  const editSubmitBtn = card.querySelector('.edit-submit');
+  const editCancelBtn = card.querySelector('.edit-cancel');
+  const editPostForm = card.querySelector('#edit-post-form');
+  // Header of post card to be hidden when edit form is shown
+  const postCardHeader = card.querySelector('.post-card-header');
 
   card.addEventListener('click', (event) => {
     // Prevent the document click event listener from firing (and triggering hideAllActionButtons())
@@ -116,7 +150,8 @@ postCards.forEach((card) => {
     if (actionButtons.classList.contains('hidden')) {
       // Hide all action buttons ON OTHER CARDS - without this, the action buttons will remain visible on other cards unless doc event triggered.
       hideAllActionButtons();
-
+      // Hide edit form if it is visible on other cards.
+      revertFormState();
       // Show the action buttons for this card
       actionButtons.classList.remove('hidden');
       // Else visible for this card: hide buttons.
@@ -127,35 +162,53 @@ postCards.forEach((card) => {
 
   // EVENT listener for view button
   viewButton.addEventListener('click', (event) => {
-    // Prevent the document click event listener from firing
+    // Prevent the card click event listener from firing
     event.stopPropagation();
-
-    // Hide buttons
+    // Hide buttons (not really necessary as page will nav away normally)
     actionButtons.classList.add('hidden');
-    console.log(`View on post ${postID} clicked]`);
+    window.location.href = `/post/${postID}`;
   });
 
   // EVENT listener for edit button
   editButton.addEventListener('click', (event) => {
-    // Prevent the document click event listener from firing
+    // Prevent the card click event listener from firing
     event.stopPropagation();
     // Hide buttons
     actionButtons.classList.add('hidden');
-    console.log(`Edit on ${postID} clicked`);
+    editPostForm.classList.remove('hidden');
+    postCardHeader.classList.add('hidden');
   });
 
   // EVENT listener to the delete button
   deleteButton.addEventListener('click', (event) => {
-    // Prevent the document click event listener from firing
+    // Prevent the card click event listener from firing
     event.stopPropagation();
 
     // instead of hiding button on click, delete for now will use a confirm. If no, buttons remain, else DELETE fetch req and page refresh
     const confirmDelete = confirm('Are you sure you want to delete this post?');
     if (confirmDelete) {
-      console.log(`Delete on ${postID} confirmed`);
+      deletePost(postID);
     }
+  });
+
+  // EVENT listener to the cancel btn on edit form
+  editCancelBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    // Prevent the card click event listener from firing
+    event.stopPropagation();
+    // Hide the edit form and show the post card header
+    revertFormState();
+  });
+  // editSubmitBtn.addEventListener('click', (event) => {});
+
+  editPostForm.addEventListener('click', (event) => {
+    event.stopPropagation(); // STOP the card click event listener from firing and toggling button vis
+    // NOTE: This is only a hotfix - the perimeter of the card will still toggle the buttons
   });
 });
 
-// Add event listener to the document to hide all action buttons when anywhere outside a card is clicked
-document.addEventListener('click', hideAllActionButtons);
+// EVENT listener for document to hide all action buttons and edit forms when anywhere outside a card is clicked
+document.addEventListener('click', () => {
+  hideAllActionButtons();
+  revertFormState();
+});
