@@ -7,7 +7,6 @@ const addCommentHeading = document.querySelector('.add-comment-heading');
 // const currentUser = addCommentHeading.getAttribute('data-current-user');
 // Below is a newer way to get the current user from the DOM
 const currentUser = addCommentHeading.dataset.currentUser;
-console.log(currentUser);
 
 // FUNCTION to format date from utils/helpers.js - for some reason it doesn't work when imported - node+browsers...
 function formatDate(date) {
