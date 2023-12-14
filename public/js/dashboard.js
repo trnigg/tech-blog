@@ -100,19 +100,18 @@ function hideAllActionButtons() {
 
 // Add event listener to each post card
 postCards.forEach((card) => {
+  // Get the action buttons for THIS card
+  const actionButtons = card.querySelector('.post-actions');
+  // Get the post ID for THIS card - this is important to target the correct post for the fetch requests
+  const postID = card.getAttribute('data-post-id');
+  // Get the view, edit, and delete buttons - this is tied to the actionButtons for this card
+  const viewButton = actionButtons.querySelector('.view-button');
+  const editButton = actionButtons.querySelector('.edit-button');
+  const deleteButton = actionButtons.querySelector('.delete-button');
+
   card.addEventListener('click', (event) => {
     // Prevent the document click event listener from firing (and triggering hideAllActionButtons())
     event.stopPropagation();
-
-    // Get the action buttons for THIS card
-    const actionButtons = card.querySelector('.post-actions');
-    // Get the post ID for THIS card - this is important to target the correct post for the fetch requests
-    const postID = card.getAttribute('data-post-id');
-    // Get the view, edit, and delete buttons - this is tied to the actionButtons for this card
-    const viewButton = actionButtons.querySelector('.view-button');
-    const editButton = actionButtons.querySelector('.edit-button');
-    const deleteButton = actionButtons.querySelector('.delete-button');
-
     // If the action buttons are hidden: show them.
     if (actionButtons.classList.contains('hidden')) {
       // Hide all action buttons ON OTHER CARDS - without this, the action buttons will remain visible on other cards unless doc event triggered.
@@ -124,39 +123,37 @@ postCards.forEach((card) => {
     } else {
       actionButtons.classList.add('hidden');
     }
+  });
 
-    // nested EVENT listener for view button
-    viewButton.addEventListener('click', (event) => {
-      // Prevent the document click event listener from firing
-      event.stopPropagation();
+  // nested EVENT listener for view button
+  viewButton.addEventListener('click', (event) => {
+    // Prevent the document click event listener from firing
+    event.stopPropagation();
 
-      // Hide buttons
-      actionButtons.classList.add('hidden');
-      console.log(`View on post ${postID} clicked]`);
-    });
+    // Hide buttons
+    actionButtons.classList.add('hidden');
+    console.log(`View on post ${postID} clicked]`);
+  });
 
-    // nested EVENT listener for edit button
-    editButton.addEventListener('click', (event) => {
-      // Prevent the document click event listener from firing
-      event.stopPropagation();
-      // Hide buttons
-      actionButtons.classList.add('hidden');
-      console.log(`Edit on ${postID} clicked`);
-    });
+  // nested EVENT listener for edit button
+  editButton.addEventListener('click', (event) => {
+    // Prevent the document click event listener from firing
+    event.stopPropagation();
+    // Hide buttons
+    actionButtons.classList.add('hidden');
+    console.log(`Edit on ${postID} clicked`);
+  });
 
-    // nested EVENT listener to the delete button
-    deleteButton.addEventListener('click', (event) => {
-      // Prevent the document click event listener from firing
-      event.stopPropagation();
+  // nested EVENT listener to the delete button
+  deleteButton.addEventListener('click', (event) => {
+    // Prevent the document click event listener from firing
+    event.stopPropagation();
 
-      // instead of hiding button on click, delete for now will use a confirm. If no, buttons remain, else DELETE fetch req and page refresh
-      const confirmDelete = confirm(
-        'Are you sure you want to delete this post?'
-      );
-      if (confirmDelete) {
-        console.log(`Delete on ${postID} confirmed`);
-      }
-    });
+    // instead of hiding button on click, delete for now will use a confirm. If no, buttons remain, else DELETE fetch req and page refresh
+    const confirmDelete = confirm('Are you sure you want to delete this post?');
+    if (confirmDelete) {
+      console.log(`Delete on ${postID} confirmed`);
+    }
   });
 });
 
