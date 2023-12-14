@@ -1,16 +1,15 @@
   {{!-- div recieves same style card as div inside > post-card --}}
   <div class='add-post-card'>
-    <form id= 'post-form' class='post-form'>
+    <form id= 'new-post-form' class='post-form'>
         <div class="post-form-header">
             <textarea id='title-content' class='title-content' placeholder='Add a post..'></textarea>
             <p class="post-date"></p>
         </div>
-            <textarea id='post-content' class='post-content' placeholder='Add content..'></textarea>
+            <textarea id='post-content' class='post-content hidden' placeholder='Add content..'></textarea>
         <div class='buttons-container'>
-            <button class='post-submit' type='submit'>Submit</button>
-            <button class='post-cancel' type='cancel'>Cancel</button>
+            <button class='post-submit hidden' type='submit'>Submit</button>
+            <button class='post-cancel hidden' type='cancel'>Cancel</button>
         </div>
     </form>
   </div class='post-card'>
 </div>
-<script src='/js/add-post.js'></script>

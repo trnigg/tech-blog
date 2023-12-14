@@ -197,11 +197,11 @@ form button {
   background-color: var(--surface-2);
 }
 
-.comment-form button,
+/* .comment-form button,
 .post-form button,
 .post-content {
   display: none;
-}
+} */
 
 .buttons-container {
   display: flex;
@@ -223,4 +223,8 @@ form button {
   flex-grow: 1;
   background-color: var(--surface-2);
   /* flex-shrink: 1; */
+}
+
+.hidden {
+  display: none;
 }
