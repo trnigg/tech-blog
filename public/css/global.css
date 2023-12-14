@@ -12,16 +12,32 @@ li {
   padding: 0;
 }
 
+h1 {
+  font-size: var(--font-size-fluid-3);
+  text-align: center;
+}
+
+h2 {
+  font-size: var(--font-size-fluid-2);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
+}
+
 /* Header Styling */
 header {
   background-color: var(--surface-3);
   padding: var(--size-fluid-1) var(--size-fluid-2);
   box-shadow: var(--shadow-4);
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .header-container {
   display: flex;
-  flex: column;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
@@ -33,6 +49,8 @@ nav {
 menu {
   display: flex;
   justify-content: space-between;
+  font-weight: bold;
+  font-size: var(--font-size-3);
 }
 
 /* Shared styling for both forms */
@@ -100,7 +118,7 @@ form button {
   align-items: center;
   /* Following calc removed header size and padding from vh100 height */
   min-height: calc(100vh - 70px - var(--size-fluid-1) * 2);
-  margin: var(--size-fluid-3) auto;
+  margin: var(--size-fluid-2) auto;
   max-width: 660px;
 }
 
@@ -112,7 +130,7 @@ form button {
   background-color: var(--surface-2);
   border-radius: var(--radius-3);
   box-shadow: var(--shadow-3);
-  padding: var(--size-fluid-3);
+  padding: var(--size-fluid-2);
   margin-bottom: var(--size-fluid-2);
   width: 100%;
 
@@ -132,6 +150,12 @@ form button {
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--size-fluid-1);
+}
+
+.post-card-header p {
+  font-weight: bold;
+  min-width: 33%;
+  text-align: end;
 }
 
 .post-card-content {
@@ -178,6 +202,10 @@ form button {
   width: calc(100% - var(--size-fluid-3));
 }
 
+.comment-card p {
+  font-size: var(--font-size-1);
+}
+
 .log-out-message {
   text-align: center;
   font-weight: var(--font-weight-7);
@@ -203,12 +231,17 @@ form button {
   display: none;
 } */
 
-.buttons-container {
+.buttons-container,
+.post-actions {
   display: flex;
   justify-content: space-between;
   width: 100%;
   max-width: 400px;
-  margin: auto;
+  margin: 0 auto;
+}
+
+button {
+  margin: 0 auto;
 }
 
 .post-form-header {
@@ -227,4 +260,19 @@ form button {
 
 .hidden {
   display: none;
+}
+
+@media screen and (max-width: 960px) {
+  .header-container {
+    flex-direction: column;
+  }
+  .post-card-header {
+    flex-direction: column;
+  }
+  nav {
+    padding: var(--size-fluid-1);
+  }
+  h2 {
+    text-align: center;
+  }
 }
