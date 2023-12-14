@@ -125,7 +125,7 @@ postCards.forEach((card) => {
     }
   });
 
-  // nested EVENT listener for view button
+  // EVENT listener for view button
   viewButton.addEventListener('click', (event) => {
     // Prevent the document click event listener from firing
     event.stopPropagation();
@@ -135,7 +135,7 @@ postCards.forEach((card) => {
     console.log(`View on post ${postID} clicked]`);
   });
 
-  // nested EVENT listener for edit button
+  // EVENT listener for edit button
   editButton.addEventListener('click', (event) => {
     // Prevent the document click event listener from firing
     event.stopPropagation();
@@ -144,7 +144,7 @@ postCards.forEach((card) => {
     console.log(`Edit on ${postID} clicked`);
   });
 
-  // nested EVENT listener to the delete button
+  // EVENT listener to the delete button
   deleteButton.addEventListener('click', (event) => {
     // Prevent the document click event listener from firing
     event.stopPropagation();
