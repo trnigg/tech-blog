@@ -1,70 +1,11 @@
 const router = require('express').Router();
-const { User, Post, Comment } = require('../../models'); // Confirm the models I need
-
-// _____________________________________GET ROUTES_____________________________________
-
-// GET all Comments
-router.get('/', async (req, res) => {
-  try {
-    const commentData = await Comment.findAll({
-      include: [{ model: User }, { model: Post }],
-    });
-    res.status(200).json(commentData);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-// GET a Comment by Comment ID
-router.get('/:id', async (req, res) => {
-  try {
-    const commentData = await Comment.findByPk(req.params.id, {
-      include: [{ model: User }, { model: Post }],
-    });
-    if (!commentData) {
-      res.status(404).json({ message: 'No comment found with this id!' });
-      return;
-    }
-    res.status(200).json(commentData);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-// GET Comments by User ID
-router.get('/user/:id', async (req, res) => {
-  try {
-    const commentData = await Comment.findAll({
-      where: {
-        user_id: req.params.id,
-      },
-      include: [{ model: User }, { model: Post }],
-    });
-    res.status(200).json(commentData);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-// GET Comments by Post ID
-router.get('/post/:id', async (req, res) => {
-  try {
-    const commentData = await Comment.findAll({
-      where: {
-        post_id: req.params.id,
-      },
-      include: [{ model: User }, { model: Post }],
-    });
-    res.status(200).json(commentData);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+const { Comment } = require('../../models'); // Confirm the models I need
+const userAuth = require('../../utils/auth'); // see comments above
 
 // _____________________________________POST ROUTES_____________________________________
 
 // POST a new Comment
-router.post('/', async (req, res) => {
+router.post('/', userAuth, async (req, res) => {
   console.log(req.body);
   try {
     const { text, post_id } = req.body;
@@ -82,9 +23,11 @@ router.post('/', async (req, res) => {
   }
 });
 
+/*
 // _____________________________________PUT ROUTES_____________________________________
-
+// NOT CURRENTLY IMPLEMENTED
 // PUT (update) a Comment (by ID)
+
 router.put('/:id', async (req, res) => {
   try {
     const commentData = await Comment.update(req.body, {
@@ -103,7 +46,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // _____________________________________DELETE ROUTES_____________________________________
-
+// NOT CURRENTLY IMPLEMENTED
 //DELETE a Comment (by ID)
 router.delete('/:id', async (req, res) => {
   try {
@@ -122,4 +65,5 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+*/
 module.exports = router;
