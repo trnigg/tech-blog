@@ -56,6 +56,23 @@ function revertFormState() {
   });
 }
 
+// FUNCTION to handle response
+async function handleResponse(response) {
+  if (response.ok) {
+    document.location.reload();
+    // Handle session-expiry redirect in the client side
+  } else if (response.status === 401) {
+    const shouldRedirect = confirm(
+      'Session expired. Please log back in to manage your content.'
+    );
+    if (shouldRedirect) {
+      window.location.href = '/log-in';
+    }
+  } else {
+    alert(response.statusText);
+  }
+}
+
 // FUNCTION to submit post to database
 async function submitPost() {
   const title = postTitle.value.trim();
@@ -72,19 +89,7 @@ async function submitPost() {
       },
     });
 
-    if (response.ok) {
-      document.location.reload();
-      // Handle session-expiry redirect in the client side
-    } else if (response.status === 401) {
-      const shouldRedirect = confirm(
-        'Session expired. Please log back in to manage your content.'
-      );
-      if (shouldRedirect) {
-        window.location.href = '/log-in';
-      }
-    } else {
-      alert(response.statusText);
-    }
+    handleResponse(response);
   }
 }
 
@@ -101,19 +106,7 @@ async function editPost(postID, newTitle, newContent) {
     },
   });
 
-  if (response.ok) {
-    document.location.reload();
-    // Handle session-expiry redirect in the client side
-  } else if (response.status === 401) {
-    const shouldRedirect = confirm(
-      'Session expired. Please log back in to manage your content.'
-    );
-    if (shouldRedirect) {
-      window.location.href = '/log-in';
-    }
-  } else {
-    alert(response.statusText);
-  }
+  handleResponse(response);
 }
 
 // FUNCTION to delete a post
@@ -125,19 +118,7 @@ async function deletePost(postID) {
     },
   });
 
-  if (response.ok) {
-    document.location.reload();
-    // Handle session-expiry redirect in the client side
-  } else if (response.status === 401) {
-    const shouldRedirect = confirm(
-      'Session expired. Please log back in to manage your content.'
-    );
-    if (shouldRedirect) {
-      window.location.href = '/log-in';
-    }
-  } else {
-    alert(response.statusText);
-  }
+  handleResponse(response);
 }
 
 //_____________________________________ Event Listeners _______________________________________
