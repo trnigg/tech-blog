@@ -21,18 +21,19 @@ function formatDate(date) {
 // FUNCTION to check textarea content and show/hide submit button depending on content within
 function checkTextareaContent() {
   if (commentContent.value.trim() !== '') {
-    submitButton.style.display = 'block';
-    cancelButton.style.display = 'block';
+    submitButton.classList.remove('hidden');
+    cancelButton.classList.remove('hidden');
     addCommentHeading.textContent = `${currentUser} on ${formatDate(
       new Date()
     )}`;
-    addCommentHeading.style.display = 'block';
+    addCommentHeading.classList.remove('hidden');
   } else {
-    submitButton.style.display = 'none';
-    cancelButton.style.display = 'none';
-    addCommentHeading.style.display = 'none';
+    submitButton.classList.add('hidden');
+    cancelButton.classList.add('hidden');
+    addCommentHeading.classList.add('hidden');
   }
 }
+
 // EVENT listener to check textarea content each time user types
 commentContent.addEventListener('input', checkTextareaContent);
 

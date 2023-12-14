@@ -41,8 +41,8 @@ router.get('/sign-up', async (req, res) => {
 
 // GET simple /log-out route to handle log-out confirmation
 
-// GET a single Post by Post ID - currently fetchUser not being used, but may implement feature requiring it later
-router.get('/post/:id', async (req, res) => {
+// GET a single Post by Post ID - // fetchUser is used to match the logged in user to the user model and subsequently the user_name
+router.get('/post/:id', fetchUser, async (req, res) => {
   try {
     // Need to include the user model inside the comment model
     const postData = await Post.findByPk(req.params.id, {
@@ -68,7 +68,7 @@ router.get('/post/:id', async (req, res) => {
   }
 });
 
-// fetchUser is used to match the logged in user to the user model and subsequently the user_name
+// Currently fetchUser not being used, but may implement feature requiring it later
 router.get('/dashboard', fetchUser, userAuth, async (req, res) => {
   try {
     // Fetch all posts by the logged in user
