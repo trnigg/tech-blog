@@ -6,7 +6,7 @@ const postContent = document.querySelector('.post-content');
 const submitButton = document.querySelector('.post-submit');
 const cancelButton = document.querySelector('.post-cancel');
 const newPostForm = document.querySelector('#new-post-form');
-const postDateContainer = document.querySelector('.post-date');
+const postDateContainer = document.querySelector('.post-date-container');
 const postCards = document.querySelectorAll('.post-card');
 
 //_____________________________________ Functions _______________________________________
