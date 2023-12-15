@@ -7,15 +7,19 @@
 
 /* Global Styling */
 
+/* Overwrite max width of text bodies that comes normalized with open-props */
+/* Design-wise, the max size is actually important for bodies of text in UI experience, but i don't have enough time to solve this differently here */
+p {
+  max-inline-size: none;
+}
+
 li {
   list-style: none;
   padding: 0;
 }
 
-/* Overwrite max width of text bodies that comes normalized with open-props */
-/* Design-wise, the max size is actually important for bodies of text in UI experience, but i don't have enough time to solve this differently here */
-p {
-  max-inline-size: none;
+button {
+  margin: 0 auto;
 }
 
 h1 {
@@ -255,10 +259,6 @@ form button {
   margin: 0 auto;
 }
 
-button {
-  margin: 0 auto;
-}
-
 .post-form-header {
   display: flex;
   flex-direction: row;
@@ -267,6 +267,7 @@ button {
   margin-bottom: var(--size-fluid-1);
 }
 
+/* These contain dynamic date generation - in the future, should refactor for a common class name */
 .post-card-header p,
 .post-date,
 .post-date-container {
@@ -278,6 +279,8 @@ button {
 .hidden {
   display: none;
 }
+
+/* Below are queries for screen sizes less than 960px */
 
 @media screen and (max-width: 960px) {
   .header-container {
