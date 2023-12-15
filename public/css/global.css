@@ -12,6 +12,12 @@ li {
   padding: 0;
 }
 
+/* Overwrite max width of text bodies that comes normalized with open-props */
+/* Design-wise, the max size is actually important for bodies of text in UI experience, but i don't have enough time to solve this differently here */
+p {
+  max-inline-size: none;
+}
+
 h1 {
   font-size: var(--font-size-fluid-3);
   text-align: center;
@@ -116,8 +122,6 @@ form button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Following calc removed header size and padding from vh100 height */
-  min-height: calc(100vh - 70px - var(--size-fluid-1) * 2);
   margin: var(--size-fluid-2) auto;
   max-width: 660px;
 }
@@ -152,14 +156,17 @@ form button {
   margin-bottom: var(--size-fluid-1);
 }
 
-.post-card-header p {
-  font-weight: bold;
-  min-width: 33%;
-  text-align: end;
+.post-card .post-card-content {
+  /*  Following truncates p on home page after 3 lines. See https://www.youtube.com/watch?v=Xc6G3oV24yE&list=PL4xoL-tQLjcvcYX53oPeYaUfMxxjc3o9L&index=6 */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .post-card-content {
   text-align: justify;
+  flex-grow: 1;
 }
 
 /* Styling for Single Post pages */
@@ -168,8 +175,6 @@ form button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Following calc removed header size and padding from vh100 height */
-  min-height: calc(100vh - 70px - var(--size-fluid-1) * 2);
   margin: var(--size-fluid-3) auto;
   max-width: 900px;
 }
@@ -219,17 +224,27 @@ form button {
   align-items: center;
 }
 
+/* Body Text input areas */
 .comment-content,
-.post-content {
+.post-content,
+.edit-content {
   width: 100%;
-  background-color: var(--surface-2);
+  background-color: transparent;
+  padding: 0;
 }
 
-/* .comment-form button,
-.post-form button,
-.post-content {
-  display: none;
-} */
+/* Header text input areas */
+.title-content,
+.edit-title {
+  flex-grow: 1;
+  background-color: transparent;
+  /* Following are to mimic <h2> styles in open-props normalize */
+  font-size: var(--font-size-fluid-2);
+  font-weight: var(--font-weight-9);
+  line-height: var(--font-lineheight-1);
+  text-wrap: balance;
+  padding: 0;
+}
 
 .buttons-container,
 .post-actions {
@@ -252,10 +267,12 @@ button {
   margin-bottom: var(--size-fluid-1);
 }
 
-.title-content {
-  flex-grow: 1;
-  background-color: var(--surface-2);
-  /* flex-shrink: 1; */
+.post-card-header p,
+.post-date,
+.post-date-container {
+  font-weight: bold;
+  min-width: 33%;
+  text-align: end;
 }
 
 .hidden {
